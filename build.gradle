@@ -3,14 +3,21 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'java'
+apply plugin: 'java-gradle-plugin'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.codehaus.groovy:groovy-all:2.4.7', 'org.osgi:org.osgi.core:6.0.0',gradleApi(), localGroovy(),
+            'org.hidetake:groovy-ssh:2.7.2'
+
+    dependencies {
+        testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+            exclude module: 'groovy-all'
+        }
+    }
 }

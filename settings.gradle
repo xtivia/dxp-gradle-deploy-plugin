@@ -1,2 +1,11 @@
 rootProject.name = 'dxp-gradle-deployment-plugin'
 
+buildscript {
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+}
+
+
