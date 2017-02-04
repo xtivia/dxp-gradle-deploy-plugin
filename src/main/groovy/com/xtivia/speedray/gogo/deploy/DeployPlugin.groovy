@@ -8,7 +8,9 @@ import org.gradle.api.Project
  */
 class DeployPlugin implements Plugin<Project> {
     void apply(Project project) {
-        project.extensions.create('gogo', DeployExtension)
-        project.tasks.create('deploy', DeployTaskMaven.class).dependsOn 'jar'
+        project.extensions.create('gogo', DeployExtension, project)
+        project.configurations.create('deploy')
+        project.tasks.create('deploy', DeployTask.class).dependsOn 'jar'
+        project.tasks.create('deployDependencies', DeployTaskMaven.class).dependsOn 'jar'
     }
 }

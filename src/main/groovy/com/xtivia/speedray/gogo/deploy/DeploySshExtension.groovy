@@ -5,7 +5,7 @@ package com.xtivia.speedray.gogo.deploy
  */
 class DeploySshExtension {
     String host
-    Integer port
+    Integer port = 22
     String user
     String password
 }

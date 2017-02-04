@@ -1,38 +1,72 @@
 package com.xtivia.speedray.gogo.deploy
 
-import org.gradle.api.GradleException
-import org.gradle.api.artifacts.ExternalDependency
-import org.gradle.api.artifacts.ResolvedArtifact
-import org.gradle.api.artifacts.component.ModuleComponentIdentifier
-import org.gradle.api.artifacts.repositories.MavenArtifactRepository
+import com.xtivia.speedray.gogo.ssh.GogoBridge
+import org.eclipse.aether.repository.LocalRepository
+import org.eclipse.aether.repository.RemoteRepository
+import org.eclipse.aether.resolution.ArtifactResolutionException
+import org.gradle.api.DefaultTask
 import org.gradle.api.internal.artifacts.repositories.DefaultMavenArtifactRepository
 import org.gradle.api.internal.artifacts.repositories.resolver.MavenResolver
 import org.gradle.api.tasks.TaskAction
 
-import org.gradle.api.artifacts.Configuration
-import org.gradle.api.artifacts.ModuleVersionIdentifier
-import org.gradle.api.artifacts.ResolvedDependency
-import org.gradle.internal.component.external.model.DefaultMavenModuleResolveMetadata
 import org.gradle.internal.component.external.model.DefaultModuleComponentIdentifier
-import org.gradle.internal.component.external.model.FixedComponentArtifacts
-import org.gradle.internal.component.model.ComponentResolveMetadata
-import org.gradle.internal.component.model.DefaultComponentOverrideMetadata
 import org.gradle.internal.component.model.DefaultIvyArtifactName
-import org.gradle.internal.component.model.IvyArtifactName
-import org.gradle.internal.resolve.result.BuildableComponentArtifactsResolveResult
-import org.gradle.internal.resolve.result.BuildableModuleComponentMetaDataResolveResult
-import org.gradle.internal.resolve.result.DefaultBuildableComponentArtifactsResolveResult
-import org.gradle.internal.resolve.result.DefaultBuildableModuleComponentMetaDataResolveResult
 
+import static AetherUtil.*
 
 /**
  * Created by don on 2/2/2017.
  */
-class DeployTaskMaven extends DeployTask {
+class DeployTaskMaven extends DefaultTask {
 
     public class MavenDependency {
-        DefaultModuleComponentIdentifier moduleComponentIdentifier
-        DefaultIvyArtifactName defaultIvyArtifactName
+        String dependency
+    }
+
+    boolean isSnapshot(MavenDependency dependency) {
+        return dependency.moduleComponentIdentifier.version.endsWith('-SNAPSHOT')
+    }
+
+    String[] installUrls = []
+
+    void installUrlsViaGogo(DeployExtension config) {
+        def client = new GogoTelnetClient(config.host, config.port)
+        try {
+            installUrls.each {
+                println("Installing ${it}")
+                String response = client.send("equinox:install -start " + it)
+                println(response)
+            }
+        } finally {
+            client.close()
+        }
+    }
+
+    void installUrls() {
+        def gogoBridge = new GogoBridge()
+        def config = (DeployExtension)project.extensions.gogo
+        if(config) {
+            if(config.useSsh) {
+                if(config.ssh) {
+                    gogoBridge.host = config.ssh.host
+                    gogoBridge.port = config.ssh.port
+                    gogoBridge.user = config.ssh.user
+                    gogoBridge.password = config.ssh.password
+                    gogoBridge.setup()
+                    gogoBridge.ssh.run {
+                        session(gogoBridge.ssh.remotes.remote) {
+                            forwardLocalPort port:config.port, hostPort:config.port
+
+                            installUrlsViaGogo(config)
+                        }
+                    }
+                } else {
+                    throw new IllegalArgumentException("ssh section is required when useSsh is true")
+                }
+            } else {
+                installUrlsViaGogo(config)
+            }
+         }
     }
 
     @TaskAction
@@ -41,49 +75,50 @@ class DeployTaskMaven extends DeployTask {
             throw new IllegalStateException("Project does not have the java plugin applied.")
         }
 
-        def dependencies = [:]
+        getDependencies()
+        installUrls()
+    }
 
-        project.configurations.compileOnly.resolvedConfiguration.resolvedArtifacts.each {
+    void getDependencies() {
+        def localRepoDir = new File('build/localrepo')
+
+        if(localRepoDir.exists()) {
+            localRepoDir.deleteDir()
+        }
+
+        def unresolved = [:]
+        def resolved = [:]
+        ConsoleTransferListener consoleTransferListener = new ConsoleTransferListener()
+
+        project.extensions.gogo.dependencies.each {
             def dependency = new MavenDependency()
-            dependency.moduleComponentIdentifier = new DefaultModuleComponentIdentifier(it.moduleVersion.id.group, it.moduleVersion.id.name, it.moduleVersion.id.version)
-            dependency.defaultIvyArtifactName = new DefaultIvyArtifactName(it.name, it.type, it.extension, it.classifier)
-            dependencies.put(dependency.moduleComponentIdentifier.displayName, dependency)
-         }
-
-        dependencies.each {
-            println(it)
+            dependency.dependency = it
+            unresolved.put(it, dependency)
         }
 
         project.repositories.each {
             if(it instanceof DefaultMavenArtifactRepository) {
                 DefaultMavenArtifactRepository repository = (DefaultMavenArtifactRepository)it
-                MavenResolver resolver = repository.createRealResolver()
-                println(repository.pomParser.class)
-                if(resolver.isLocal()) {
-
-                } else {
-                   println(resolver.root)
-                   def pattern = resolver.artifactPatterns.toString()
-                   dependencies.each {
-                       def dependency = (MavenDependency)it.value
-                       def result = new DefaultBuildableModuleComponentMetaDataResolveResult()
-                       def overrides = new DefaultComponentOverrideMetadata()
-                       resolver.remoteAccess.resolveComponentMetaData(dependency.moduleComponentIdentifier, overrides, result)
-                       if (!result.failure) {
-                           def metadata = (DefaultMavenModuleResolveMetadata)result.metaData
-                           def url = pattern.replace('[organisation]', metadata.componentId.group.replace('.','/'))
-                            .replace('[module]', metadata.componentId.module)
-                            .replace('[revision]', metadata.componentId.version)
-                            .replace('[artifact]', dependency.defaultIvyArtifactName.name)
-                            .replace('[revision]', metadata.componentId.version)
-                            .replace('(-[classifier])','')
-                            .replace('[ext]',dependency.defaultIvyArtifactName.extension)
-                           println(url)
-                       }
-                   }
+                RemoteRepository remoteRepo = newRemoteRepository(repository.url.toString(),null,null)
+                LocalRepository localRepository = new LocalRepository('build/localrepo')
+                unresolved.each {
+                    def dependency = (MavenDependency)it.value
+                    if(resolved[dependency.dependency] == null) {
+                        try {
+                            ArtifactResolver artifactResolver = new ArtifactResolver(dependency.dependency, remoteRepo, localRepository, consoleTransferListener)
+                            artifactResolver.resolve(true)
+                            resolved.put(dependency.dependency, dependency)
+                        } catch(ArtifactResolutionException e) {
+                            println(e.message);
+                        }
+                    }
                 }
-                println(it)
             }
+        }
+
+        consoleTransferListener.downloadTransfers.each {
+            def url = (it.value.repositoryUrl + it.value.resourceName)
+            installUrls = installUrls + url
         }
     }
 }

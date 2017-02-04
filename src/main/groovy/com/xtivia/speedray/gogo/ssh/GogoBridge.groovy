@@ -17,6 +17,9 @@ class GogoBridge {
 
     def setup() {
         ssh = Ssh.newService();
+        ssh.settings {
+            knownHosts = allowAnyHosts
+        }
         ssh.remotes {
             remote {
                 host = this.host

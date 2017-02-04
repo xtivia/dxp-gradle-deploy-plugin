@@ -1,6 +1,8 @@
 package com.xtivia.speedray.gogo.deploy
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.impldep.aQute.bnd.header.Parameters
 import org.gradle.jvm.tasks.Jar
 import org.osgi.framework.Bundle
@@ -10,11 +12,18 @@ import java.util.jar.Attributes
 import java.util.jar.Manifest
 
 class DeployTask extends DefaultTask {
-    def deploy(Jar bundle) {
+    @Input
+    public File getJarFile() {
+        return project.tasks.jar.archivePath
+    }
+
+    @TaskAction
+    def deploy() {
         boolean isFragment = false;
         String fragmentHost = null;
         String bsn = null;
         String hostBSN = null;
+        Jar bundle = new Jar(getJarFile())
 
         try {
             Manifest manifest = bundle.getManifest();
