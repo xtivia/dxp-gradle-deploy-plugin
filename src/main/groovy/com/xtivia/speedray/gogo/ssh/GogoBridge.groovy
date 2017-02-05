@@ -1,5 +1,6 @@
 package com.xtivia.speedray.gogo.ssh
 
+import com.xtivia.speedray.gogo.deploy.DeploySshExtension
 import org.hidetake.groovy.ssh.Ssh
 import org.hidetake.groovy.ssh.core.Service
 
@@ -8,25 +9,24 @@ import org.hidetake.groovy.ssh.core.Service
  */
 class GogoBridge {
 
-    public host = 'localhost'
-    public port = 22
-    public user
-    public password
-
     public Service ssh
 
-    def setup() {
+    def setup(DeploySshExtension config) {
         ssh = Ssh.newService();
         ssh.settings {
             knownHosts = allowAnyHosts
         }
         ssh.remotes {
             remote {
-                host = this.host
-                port = this.port
-                user = this.user
-                password = this.password
+                host = config.host
+                port = config.port
+                user = config.user
+                password = config.password
             }
         }
+    }
+
+    def run(Closure closure) {
+        return ssh.run(closure)
     }
 }

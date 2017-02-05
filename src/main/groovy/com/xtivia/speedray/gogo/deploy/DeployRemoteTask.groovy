@@ -6,25 +6,21 @@ import org.eclipse.aether.repository.RemoteRepository
 import org.eclipse.aether.resolution.ArtifactResolutionException
 import org.gradle.api.DefaultTask
 import org.gradle.api.internal.artifacts.repositories.DefaultMavenArtifactRepository
-import org.gradle.api.internal.artifacts.repositories.resolver.MavenResolver
 import org.gradle.api.tasks.TaskAction
-
-import org.gradle.internal.component.external.model.DefaultModuleComponentIdentifier
-import org.gradle.internal.component.model.DefaultIvyArtifactName
 
 import static AetherUtil.*
 
 /**
  * Created by don on 2/2/2017.
  */
-class DeployTaskMaven extends DefaultTask {
+class DeployRemoteTask extends DefaultTask {
 
     public class MavenDependency {
         String dependency
     }
 
     boolean isSnapshot(MavenDependency dependency) {
-        return dependency.moduleComponentIdentifier.version.endsWith('-SNAPSHOT')
+        return dependency.dependency.endsWith('-SNAPSHOT')
     }
 
     String[] installUrls = []
@@ -48,15 +44,10 @@ class DeployTaskMaven extends DefaultTask {
         if(config) {
             if(config.useSsh) {
                 if(config.ssh) {
-                    gogoBridge.host = config.ssh.host
-                    gogoBridge.port = config.ssh.port
-                    gogoBridge.user = config.ssh.user
-                    gogoBridge.password = config.ssh.password
-                    gogoBridge.setup()
-                    gogoBridge.ssh.run {
+                    gogoBridge.setup(config.ssh)
+                    gogoBridge.run {
                         session(gogoBridge.ssh.remotes.remote) {
                             forwardLocalPort port:config.port, hostPort:config.port
-
                             installUrlsViaGogo(config)
                         }
                     }
@@ -71,10 +62,6 @@ class DeployTaskMaven extends DefaultTask {
 
     @TaskAction
     void deploy() {
-        if (!project.plugins.hasPlugin('java')) {
-            throw new IllegalStateException("Project does not have the java plugin applied.")
-        }
-
         getDependencies()
         installUrls()
     }
@@ -118,6 +105,7 @@ class DeployTaskMaven extends DefaultTask {
 
         consoleTransferListener.downloadTransfers.each {
             def url = (it.value.repositoryUrl + it.value.resourceName)
+            it.value.file
             installUrls = installUrls + url
         }
     }

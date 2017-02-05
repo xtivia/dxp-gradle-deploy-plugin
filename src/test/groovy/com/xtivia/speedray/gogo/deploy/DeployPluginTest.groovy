@@ -47,20 +47,27 @@ class DeployPluginTest extends Specification {
                     user = '91040'
                     password = 'Caseyd!001'
                 }
-                dependencies  'io.swagger:swagger-annotations:1.5.9',
-                        'com.xtivia.tools:sgdxp:1.0.0',
-                        'org.hibernate:hibernate-osgi:5.2.6.Final',
-                        'org.hibernate:hibernate-core:5.2.6.Final',
-                        'org.javassist:javassist:3.21.0-GA',
-                        'com.spire:service-providers:1.0.0-SNAPSHOT',
-                        'com.spire:account-services:1.0.0-SNAPSHOT',
-                        'com.spire:security-services:1.0.0-SNAPSHOT',
-                        'com.spire:billing-services:1.0.0-SNAPSHOT',
-                        'com.spire:payment-services:1.0.0-SNAPSHOT',
-                        'com.spire:account-ui:1.0.0-SNAPSHOT',
-                        'com.spire:payment-ui:1.0.0-SNAPSHOT',
-                        'com.spire:billing-ui:1.0.0-SNAPSHOT',
-                        'com.spire:security-ui:1.0.0-SNAPSHOT'
+                dependencies  'org.slf4j:slf4j-log4j12:1.7.22',
+                              'org.slf4j:slf4j-api:1.7.22',
+                              'org.jboss.logging:jboss-logging:3.3.0.Final',
+                              'org.osgi:org.osgi.service.jdbc:1.0.0',
+                              'org.jboss:jandex:2.0.3.Final',
+                              'org.hibernate.common:hibernate-commons-annotations:5.0.1.Final',
+                              'net.bytebuddy:byte-buddy:1.6.7',
+                              'org.javassist:javassist:3.21.0-GA',
+                              'com.fasterxml:classmate:1.3.3',
+                              'org.apache.servicemix.bundles:org.apache.servicemix.bundles.antlr:2.7.7_5',
+                              'javax.security.jacc:javax.security.jacc-api:1.5',
+                              'org.eclipse.persistence:javax.persistence:2.1.0',
+                              'javax.interceptor:javax.interceptor-api:1.2',
+                              'org.apache.servicemix.bundles:org.apache.servicemix.bundles.javax-inject:1_2',
+                              'javax.enterprise:cdi-api:1.2',
+                              'org.slf4j:slf4j-api:1.7.22',
+                              'javax.transaction:javax.transaction-api:1.2',
+                              'org.hibernate.hibernate-core:5.2.6.Final',
+                              'org.hibernate:hibernate-osgi:5.2.6.Final',
+                              'io.swagger:swagger-annotations:1.5.10',
+                              'com.xtivia.tools:sgdxp:1.0.0'
             }
             
         """
