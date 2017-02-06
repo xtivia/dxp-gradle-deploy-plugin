@@ -41,8 +41,15 @@ class BundleDeployer {
                 response = client.send("refresh " + hostId);
 
                 log.info(response);
-            }
-            else {
+            } else if(deployableBundle.artifact.isSnapshot()) {
+                String response = client.send("uninstall " + existingId);
+
+                log.info(response);
+
+                response = client.send("equinox:install -start " + deployableBundle.url);
+
+                log.info(response);
+            } else {
                 String response = client.send("stop " + existingId);
 
                 log.info(response);
