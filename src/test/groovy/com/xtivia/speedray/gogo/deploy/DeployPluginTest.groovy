@@ -3,6 +3,7 @@ package com.xtivia.speedray.gogo.deploy
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+import spock.lang.Requires
 import spock.lang.Specification
 
 import static org.gradle.testkit.runner.TaskOutcome.*
@@ -17,6 +18,8 @@ class DeployPluginTest extends Specification {
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')
     }
+
+    @Requires({ env.SSH_HOST != null && env.SSH_USER != null && env.SSH_PASSWD != null })
     def "maven targets from dependencies"() {
         given:
         buildFile << """
@@ -43,9 +46,9 @@ class DeployPluginTest extends Specification {
             gogo {
                 useSsh true
                 ssh {
-                    host = 'stl-dlryapp-10'
-                    user = '91040'
-                    password = 'Caseyd!001'
+                    host = '${System.env.SSH_HOST}'
+                    user = '${System.env.SSH_USER}'
+                    password = '${System.env.SSH_PASSWD}'
                 }
                 dependencies  'org.slf4j:slf4j-log4j12:1.7.22',
                               'org.slf4j:slf4j-api:1.7.22',
@@ -67,14 +70,19 @@ class DeployPluginTest extends Specification {
                               'org.hibernate.hibernate-core:5.2.6.Final',
                               'org.hibernate:hibernate-osgi:5.2.6.Final',
                               'io.swagger:swagger-annotations:1.5.10',
-                              'com.xtivia.tools:sgdxp:1.0.0'
+                              'com.xtivia.tools:sgdxp:1.0.0',
+                              'com.spire:service-providers:1.0.0-SNAPSHOT',
+                              'com.spire:account-services:1.0.0-SNAPSHOT',
+                              'com.spire:security-services:1.0.0-SNAPSHOT',
+                              'com.spire:payment-services:1.0.0-SNAPSHOT',
+                              'com.spire:billing-services:1.0.0-SNAPSHOT'
             }
             
         """
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
-            .withArguments('deployDependencies', '--stacktrace')
+            .withArguments('deployDependencies', '--stacktrace', '--info')
             .withPluginClasspath()
             .build()
         then:

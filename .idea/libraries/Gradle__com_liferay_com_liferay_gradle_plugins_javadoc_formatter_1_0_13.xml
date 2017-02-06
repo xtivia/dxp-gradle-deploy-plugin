@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.liferay:com.liferay.gradle.plugins.javadoc.formatter:1.0.13">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.javadoc.formatter/1.0.13/89b67066e8dce6bcbd5d1b1c9cf6463978ba66ec/com.liferay.gradle.plugins.javadoc.formatter-1.0.13.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.javadoc.formatter/1.0.13/662f01c3a93ecbd62598df3b1c51a9e9dad9d8d0/com.liferay.gradle.plugins.javadoc.formatter-1.0.13-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

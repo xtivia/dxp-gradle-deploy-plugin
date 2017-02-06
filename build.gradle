@@ -16,7 +16,8 @@ dependencies {
             'org.hidetake:groovy-ssh:2.7.2', 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1',
             'org.eclipse.aether:aether-impl:1.1.0', 'org.eclipse.aether:aether-transport-http:1.1.0',
             'org.eclipse.aether:aether-transport-file:1.1.0', 'org.eclipse.aether:aether-connector-basic:1.1.0',
-            'org.apache.maven:maven-aether-provider:3.3.9'
+            'org.apache.maven:maven-aether-provider:3.3.9', 'com.liferay:com.liferay.gradle.plugins:3.0.59',
+            gradleApi(), localGroovy()
 
     dependencies {
         testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {

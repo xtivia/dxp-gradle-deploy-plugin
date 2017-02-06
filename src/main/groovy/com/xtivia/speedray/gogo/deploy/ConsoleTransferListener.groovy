@@ -1,5 +1,6 @@
 package com.xtivia.speedray.gogo.deploy
 
+import org.eclipse.aether.resolution.ArtifactRequest
 import org.eclipse.aether.transfer.AbstractTransferListener
 import org.eclipse.aether.transfer.MetadataNotFoundException
 import org.eclipse.aether.transfer.TransferEvent
@@ -83,7 +84,7 @@ class ConsoleTransferListener
 
         TransferResource resource = event.getResource()
         if(resource.resourceName.endsWith('jar') || resource.resourceName.endsWith('war')) {
-            downloadTransfers.put(resource.resourceName, resource)
+            downloadTransfers.put(resource.trace.parent.data, resource)
         }
         long contentLength = event.getTransferredBytes()
         if (contentLength >= 0) {

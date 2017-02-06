@@ -2,6 +2,7 @@ package com.xtivia.speedray.gogo.deploy
 
 import org.eclipse.aether.RepositorySystem
 import org.eclipse.aether.RepositorySystemSession
+import org.eclipse.aether.RequestTrace
 import org.eclipse.aether.artifact.Artifact
 import org.eclipse.aether.artifact.DefaultArtifact
 import org.eclipse.aether.repository.LocalRepository
@@ -33,7 +34,7 @@ public class ArtifactResolver {
         this.consoleTransferListener = consoleTransferListener1
     }
 
-    void resolve(boolean download) {
+    Artifact resolve(boolean download) {
 
         // missing version == highest version, default classifier, default extension
         if (artifactName.split(':').length == 2) {
@@ -75,6 +76,7 @@ public class ArtifactResolver {
                 artifact.getClassifier(), artifact.getExtension(), highestVersion.toString())
         artifactRequest.setArtifact(toDownload)
         artifactRequest.setRepositories(remotes)
+        artifactRequest.setTrace(new RequestTrace(artifactName))
 
         ArtifactResult artifactResult = system.resolveArtifact(session, artifactRequest)
         if (download) {
@@ -82,5 +84,7 @@ public class ArtifactResolver {
             artifact = artifactResult.getArtifact()
 
         }
+
+        return artifact
     }
 }

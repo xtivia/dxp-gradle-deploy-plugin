@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.liferay:com.liferay.gradle.plugins.soy:2.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.soy/2.0.0/2e5c3577c0d1bad60162b6d19699d9a6d1b6a426/com.liferay.gradle.plugins.soy-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.soy/2.0.0/f1868324ddb10968d62a7685d223152d1025617b/com.liferay.gradle.plugins.soy-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

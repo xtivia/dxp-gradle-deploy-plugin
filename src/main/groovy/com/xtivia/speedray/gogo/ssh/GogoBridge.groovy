@@ -2,6 +2,7 @@ package com.xtivia.speedray.gogo.ssh
 
 import com.xtivia.speedray.gogo.deploy.DeploySshExtension
 import org.hidetake.groovy.ssh.Ssh
+import org.hidetake.groovy.ssh.core.RunHandler
 import org.hidetake.groovy.ssh.core.Service
 
 /**
@@ -24,9 +25,5 @@ class GogoBridge {
                 password = config.password
             }
         }
-    }
-
-    def run(Closure closure) {
-        return ssh.run(closure)
     }
 }
