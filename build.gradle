@@ -1,9 +1,25 @@
+/**
+ * Copyright (c) 2016 Xtivia, Inc. All rights reserved.
+ *
+ * This file is part of the Xtivia Services Framework (XSF) library.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
 group 'com.xtivia'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'java'
 apply plugin: 'java-gradle-plugin'
+apply plugin: 'com.jfrog.bintray'
 
 sourceCompatibility = 1.8
 
@@ -23,5 +39,15 @@ dependencies {
         testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
             exclude module: 'groovy-all'
         }
+    }
+}
+
+bintray {
+    user = 'ddavis2xtivia'
+    key = '4a219de5da6014bc1c3af10c5cce19c215d00d54'
+    pkg {
+        repo = 'git'
+        name = 'dxp-gradle-deployment-plugin'
+        userOrg="xtivia"
     }
 }
