@@ -14,14 +14,3 @@
  * details.
  */
 rootProject.name = 'dxp-gradle-deployment-plugin'
-
-buildscript {
-    repositories {
-    	jcenter()
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
-    }
-}
-
-

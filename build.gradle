@@ -13,17 +13,25 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-plugins {
-    id "com.jfrog.bintray" version "1.7"
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.gradle.publish:plugin-publish-plugin:0.9.7"
+  }
 }
 
 group 'com.xtivia'
 version '1.0.0'
 
+apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'groovy'
 apply plugin: 'java'
 apply plugin: 'java-gradle-plugin'
-apply plugin: 'com.jfrog.bintray'
 
 sourceCompatibility = 1.8
 
@@ -46,18 +54,15 @@ dependencies {
     }
 }
 
-bintray {
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-    filesSpec {
-	from 'build/libs'
-	into '.'
-    }
-    pkg {
-        repo = 'dxp-gradle-deployment-plugin'
-	name = 'dxp-gradle-deployment-plugin'
-        userOrg = 'xtivia'
-	licenses = ['LGPL-3']
-	vcsUrl = 'https://github.com/xtivia/dxp-gradle-deploy-plugin.git'
-    }
+pluginBundle {
+	website = 'https://www.xtivia.com'
+	vcsUrl = 'https://github.com/xtivia/dxp-gradle-deploy-plugin'
+	description = 'Gradle plugin for deploying DXP OSGI modules and dependencis via GOGO shell over an SSH transport'
+	tags = ['DXP', 'Gradle']
+	plugins {
+		dxpDeployPlugin {
+			id = 'com.xtivia.speedray.gogo.deploy'
+			displayName = 'Gradle DXP deploy plugin'
+		}
+	}
 }
