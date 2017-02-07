@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.liferay:com.liferay.gradle.plugins.wsdd.builder:1.0.9">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.wsdd.builder/1.0.9/d35cec9dde31c2238c07ecda477a6fe9b7572a28/com.liferay.gradle.plugins.wsdd.builder-1.0.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.wsdd.builder/1.0.9/e3f67d2a36a61342da925328d62058aa45ec07da/com.liferay.gradle.plugins.wsdd.builder-1.0.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

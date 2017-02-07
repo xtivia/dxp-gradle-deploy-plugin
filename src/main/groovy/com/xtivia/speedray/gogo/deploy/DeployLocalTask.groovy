@@ -15,6 +15,7 @@
  */
 package com.xtivia.speedray.gogo.deploy
 
+import org.eclipse.aether.artifact.DefaultArtifact
 import org.gradle.api.DefaultTask
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
@@ -30,7 +31,10 @@ class DeployLocalTask extends DefaultTask {
 
     @TaskAction
     def deploy() {
-        def bundles = [new DeployableBundle(new Bundle(getJarFile()), getJarFile().toURI().toASCIIString())]
+        def bundle = new DeployableBundle(project.group+':'+project.name+':'+project.version)
+        bundle.artifact = new DefaultArtifact(bundle.name)
+        bundle.url = getJarFile().toURI().toASCIIString()
+        DeployableBundle[] bundles = [] + bundle
         def deployer = new BundleDeployer(bundles)
         def client = new GogoTelnetClient(_host, _port);
         try {
@@ -40,5 +44,7 @@ class DeployLocalTask extends DefaultTask {
         }
     }
 
+    private final String _host = 'localhost'
+    private final int _port = 11311
     private static final Logger log = Logging.getLogger(DeployLocalTask.class)
 }

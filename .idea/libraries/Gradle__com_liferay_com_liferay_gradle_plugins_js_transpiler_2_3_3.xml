@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.liferay:com.liferay.gradle.plugins.js.transpiler:2.3.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.js.transpiler/2.3.3/51e368960a888c1a36b6a48b4fa7805655c7842c/com.liferay.gradle.plugins.js.transpiler-2.3.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.js.transpiler/2.3.3/47e10e7ccfb2dfdfc5c18794feba4657c2025d02/com.liferay.gradle.plugins.js.transpiler-2.3.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.liferay:com.liferay.gradle.plugins.tlddoc.builder:1.2.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.tlddoc.builder/1.2.0/23f0603176440b40372f2d37ac885415a98a6b9a/com.liferay.gradle.plugins.tlddoc.builder-1.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liferay/com.liferay.gradle.plugins.tlddoc.builder/1.2.0/b54ef41ef2fda71cd46ee3577a0f39b290f0c121/com.liferay.gradle.plugins.tlddoc.builder-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
