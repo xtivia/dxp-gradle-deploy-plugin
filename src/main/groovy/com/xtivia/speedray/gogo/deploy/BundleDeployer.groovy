@@ -29,7 +29,7 @@ class BundleDeployer {
         this.deployableBundles = deployableBundles
     }
 
-    def deploy(GogoTelnetClient client) {
+    def deploy(GogoTelnetClientImpl client) {
 
         List<BundleDTO> bundles = getBundles(client);
 
@@ -41,7 +41,7 @@ class BundleDeployer {
 
     }
 
-    def deploy(DeployableBundle deployableBundle, List<BundleDTO> bundles, GogoTelnetClient client) {
+    def deploy(DeployableBundle deployableBundle, List<BundleDTO> bundles, GogoTelnetClientImpl client) {
 
         long hostId = getBundleId(bundles, deployableBundle.bundle.hostBSN);
 
@@ -121,7 +121,7 @@ class BundleDeployer {
         return existingId;
     }
 
-    private List<BundleDTO> getBundles(GogoTelnetClient client)
+    private List<BundleDTO> getBundles(GogoTelnetClientImpl client)
             throws IOException {
 
         List<BundleDTO> bundles = new ArrayList<>();

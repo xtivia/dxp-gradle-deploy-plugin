@@ -29,9 +29,12 @@ import static org.gradle.testkit.runner.TaskOutcome.*
 class DeployPluginTest extends Specification {
     @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile
+    File settingsFile
+
 
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')
+        settingsFile = testProjectDir.newFile('settings.gradle')
     }
 
     @Requires({ env.SSH_HOST != null && env.SSH_USER != null && env.SSH_PASSWD != null })
@@ -104,5 +107,37 @@ class DeployPluginTest extends Specification {
         result.task(':deployDependencies').outcome == SUCCESS
         println(result.tasks)
         println(result.output)
+    }
+
+    def "deploy works with single jar"() {
+        given:
+        settingsFile << """
+            rootProject.name = 'sgdxp'    
+        """
+        buildFile << """
+            plugins {
+                id 'com.xtivia.speedray.gogo.deploy'
+            }
+            group = 'com.xtivia.tools'
+            version = '1.0.0'            
+            repositories {
+                mavenCentral()
+            }
+            dependencies {
+            }
+            
+            task jar(type: com.xtivia.speedray.gogo.deploy.MockJarTask) {
+                archivePath = file('libs/sgdxp-1.0.0.jar')
+                baseName = 'sgdxp'
+            }
+        """
+        when:
+        def runner = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('deploy', '--stacktrace', '--info')
+                .withPluginClasspath()
+        def result = runner.withPluginClasspath(runner.pluginClasspath+(new File('build/classes/test'))).build()
+        then:
+        result.task(':deploy').outcome == SUCCESS
     }
 }

@@ -31,12 +31,14 @@ class DeployLocalTask extends DefaultTask {
 
     @TaskAction
     def deploy() {
+        log.info("Installing ${project.group}:${project.name}:${project.version}")
         def bundle = new DeployableBundle(project.group+':'+project.name+':'+project.version)
+        log.info("Installing ${bundle.name}")
         bundle.artifact = new DefaultArtifact(bundle.name)
         bundle.url = getJarFile().toURI().toASCIIString()
         DeployableBundle[] bundles = [] + bundle
         def deployer = new BundleDeployer(bundles)
-        def client = new GogoTelnetClient(_host, _port);
+        def client = new GogoTelnetClientImpl(_host, _port);
         try {
             deployer.deploy(client);
         } finally {

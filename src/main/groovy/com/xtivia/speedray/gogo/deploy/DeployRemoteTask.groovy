@@ -36,7 +36,7 @@ class DeployRemoteTask extends DefaultTask {
 
     void installUrlsViaGogo(DeployExtension config) {
         def deployer = new BundleDeployer(deployableBundles)
-        def client = new GogoTelnetClient(config.host, config.port)
+        def client = new GogoTelnetClientImpl(config.host, config.port)
         try {
             deployer.deploy(client);
         } finally {
@@ -50,7 +50,6 @@ class DeployRemoteTask extends DefaultTask {
         if(config) {
             if(config.useSsh) {
                 if(config.ssh) {
-                    println("${config.ssh.user}, ${config.ssh.password}, ${config.ssh.host}, ${config.ssh.port}")
                     gogoBridge.setup(config.ssh)
                     gogoBridge.ssh.run {
                         session(gogoBridge.ssh.remotes.remote) {
