@@ -23,4 +23,5 @@ class DeploySshExtension {
     Integer port = 22
     String user
     String password
+    File identityFile
 }

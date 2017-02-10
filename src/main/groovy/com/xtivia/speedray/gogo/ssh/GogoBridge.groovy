@@ -38,6 +38,7 @@ class GogoBridge {
                 port = config.port
                 user = config.user
                 password = config.password
+                identity = config.identityFile
             }
         }
     }
