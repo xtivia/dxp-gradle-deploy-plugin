@@ -18,11 +18,10 @@ plugins {
     id "groovy"
     id "java"
     id "java-gradle-plugin"
-    id "com.jfrog.bintray" version "1.7.3"
 }
 
 group 'com.xtivia'
-version '1.0-SNAPSHOT'
+version '1.0.6'
 
 sourceCompatibility = 1.8
 
@@ -42,15 +41,5 @@ dependencies {
         testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
             exclude module: 'groovy-all'
         }
-    }
-}
-
-bintray {
-    user = 'ddavis2xtivia'
-    key = '4a219de5da6014bc1c3af10c5cce19c215d00d54'
-    pkg {
-        repo = 'git'
-        name = 'dxp-gradle-deployment-plugin'
-        userOrg="xtivia"
     }
 }

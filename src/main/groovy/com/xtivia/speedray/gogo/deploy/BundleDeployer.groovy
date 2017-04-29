@@ -71,8 +71,7 @@ class BundleDeployer {
             }
 
             log.info("Updated bundle " + existingId);
-        }
-        else {
+        } else {
             String response = client.send("install " + deployableBundle.url);
 
             log.info(response);
@@ -81,8 +80,7 @@ class BundleDeployer {
                 response = client.send("refresh " + hostId);
 
                 log.info(response);
-            }
-            else {
+            } else {
                 existingId = getBundleId(getBundles(client), deployableBundle.bundle.bsn);
 
                 if(existingId > 1) {
@@ -148,19 +146,19 @@ class BundleDeployer {
         if ("ACTIVE".equals(bundleState)) {
             return org.osgi.framework.Bundle.ACTIVE;
         }
-        else if ("INSTALLED".equals(Bundle.INSTALLED)) {
+        else if ("INSTALLED".equals(bundleState)) {
             return org.osgi.framework.Bundle.INSTALLED;
         }
-        else if ("RESOLVED".equals(Bundle.RESOLVED)) {
+        else if ("RESOLVED".equals(bundleState)) {
             return org.osgi.framework.Bundle.RESOLVED;
         }
-        else if ("STARTING".equals(Bundle.STARTING)) {
+        else if ("STARTING".equals(bundleState)) {
             return org.osgi.framework.Bundle.STARTING;
         }
-        else if ("STOPPING".equals(Bundle.STOPPING)) {
+        else if ("STOPPING".equals(bundleState)) {
             return org.osgi.framework.Bundle.STOPPING;
         }
-        else if ("UNINSTALLED".equals(Bundle.UNINSTALLED)) {
+        else if ("UNINSTALLED".equals(bundleState)) {
             return org.osgi.framework.Bundle.UNINSTALLED;
         }
 

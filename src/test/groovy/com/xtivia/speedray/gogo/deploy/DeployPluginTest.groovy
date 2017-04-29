@@ -34,7 +34,6 @@ class DeployPluginTest extends Specification {
         buildFile = testProjectDir.newFile('build.gradle')
     }
 
-    @Requires({ env.SSH_HOST != null && env.SSH_USER != null && env.SSH_PASSWD != null })
     def "maven targets from dependencies"() {
         given:
         buildFile << """
@@ -71,7 +70,7 @@ class DeployPluginTest extends Specification {
                               'javax.enterprise:cdi-api:1.2',
                               'org.slf4j:slf4j-api:1.7.22',
                               'javax.transaction:javax.transaction-api:1.2',
-                              'org.hibernate.hibernate-core:5.2.6.Final',
+                              'org.hibernate:hibernate-core:5.2.6.Final',
                               'org.hibernate:hibernate-osgi:5.2.6.Final',
                               'io.swagger:swagger-annotations:1.5.10'
             }
