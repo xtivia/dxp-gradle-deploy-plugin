@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Copyright (c) 2016 Xtivia, Inc. All rights reserved.
  *

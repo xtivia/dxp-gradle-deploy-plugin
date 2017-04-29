@@ -32,7 +32,7 @@ class DeployLocalTask extends DefaultTask {
     def deploy() {
         def bundles = [new DeployableBundle(new Bundle(getJarFile()), getJarFile().toURI().toASCIIString())]
         def deployer = new BundleDeployer(bundles)
-        def client = new GogoTelnetClient(_host, _port);
+        def client = new GogoTelnetClientImpl(_host, _port);
         try {
             deployer.deploy(client);
         } finally {

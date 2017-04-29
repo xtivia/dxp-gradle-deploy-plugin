@@ -36,7 +36,7 @@ class DeployRemoteTask extends DefaultTask {
 
     void installUrlsViaGogo(DeployExtension config) {
         def deployer = new BundleDeployer(deployableBundles)
-        def client = new GogoTelnetClient(config.host, config.port)
+        def client = new GogoTelnetClientImpl(config.host, config.port)
         try {
             deployer.deploy(client);
         } finally {
