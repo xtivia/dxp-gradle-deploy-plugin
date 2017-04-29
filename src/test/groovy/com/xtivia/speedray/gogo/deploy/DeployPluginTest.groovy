@@ -47,24 +47,13 @@ class DeployPluginTest extends Specification {
             repositories {
                 mavenCentral()
                 jcenter()
-                maven {
-                    url "http://stl-dnexus-10/repository/maven-snapshots"
-                }
-                maven {
-                    url "http://stl-dnexus-10/repository/maven-releases"
-                }
             }
         
             dependencies {
             }
             
             gogo {
-                useSsh true
-                ssh {
-                    host = '${System.env.SSH_HOST}'
-                    user = '${System.env.SSH_USER}'
-                    password = '${System.env.SSH_PASSWD}'
-                }
+                useSsh false
                 dependencies  'org.slf4j:slf4j-log4j12:1.7.22',
                               'org.slf4j:slf4j-api:1.7.22',
                               'org.jboss.logging:jboss-logging:3.3.0.Final',
@@ -84,13 +73,7 @@ class DeployPluginTest extends Specification {
                               'javax.transaction:javax.transaction-api:1.2',
                               'org.hibernate.hibernate-core:5.2.6.Final',
                               'org.hibernate:hibernate-osgi:5.2.6.Final',
-                              'io.swagger:swagger-annotations:1.5.10',
-                              'com.xtivia.tools:sgdxp:1.0.0',
-                              'com.spire:service-providers:1.0.0-SNAPSHOT',
-                              'com.spire:account-services:1.0.0-SNAPSHOT',
-                              'com.spire:security-services:1.0.0-SNAPSHOT',
-                              'com.spire:payment-services:1.0.0-SNAPSHOT',
-                              'com.spire:billing-services:1.0.0-SNAPSHOT'
+                              'io.swagger:swagger-annotations:1.5.10'
             }
             
         """
