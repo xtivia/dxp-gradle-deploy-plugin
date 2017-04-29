@@ -122,5 +122,4 @@ class ConsoleRepositoryListener
     {
         out.println( "Resolving metadata " + event.getMetadata() + " from " + event.getRepository() )
     }
-
 }

@@ -145,5 +145,4 @@ class ConsoleTransferListener
     protected long toKB(long bytes) {
         return (bytes + 1023) / 1024
     }
-
 }

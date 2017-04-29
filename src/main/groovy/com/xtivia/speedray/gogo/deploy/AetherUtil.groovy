@@ -109,5 +109,4 @@ class AetherUtil
 
         return locator.getService( RepositorySystem.class )
     }
-
 }
