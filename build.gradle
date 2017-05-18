@@ -24,14 +24,14 @@
     classpath "com.gradle.publish:plugin-publish-plugin:0.9.7"
   }
 }
- 
+
 apply plugin: "groovy"
 apply plugin: "java"
 apply plugin: "java-gradle-plugin"
 apply plugin: "com.gradle.plugin-publish"
 
 group 'com.xtivia'
-version '1.0.6'
+version '1.0.7'
 
 sourceCompatibility = 1.8
 
