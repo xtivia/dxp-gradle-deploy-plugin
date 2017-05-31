@@ -22,7 +22,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.sdkman/candidates/gradle/3.3/lib/groovy-all-2.4.7.jar!/" />
+          <root url="jar://$USER_HOME$/.sdkman/candidates/gradle/3.3/lib/gradle-installation-beacon-3.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -31,7 +31,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.sdkman/candidates/gradle/3.3/lib/gradle-installation-beacon-3.3.jar!/" />
+          <root url="jar://$USER_HOME$/.sdkman/candidates/gradle/3.3/lib/groovy-all-2.4.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

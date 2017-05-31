@@ -53,6 +53,13 @@ class DeployPluginTest extends Specification {
             
             gogo {
                 useSsh false
+                ssh {
+                    host = "testssh.xtivia.com"
+                    port = 4444
+                    user = "someone"
+                    password = "password"
+                    identityFile = file("test.id")
+                }
                 dependencies  'org.slf4j:slf4j-log4j12:1.7.22',
                               'org.slf4j:slf4j-api:1.7.22',
                               'org.jboss.logging:jboss-logging:3.3.0.Final',

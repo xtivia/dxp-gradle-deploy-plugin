@@ -19,8 +19,9 @@ package com.xtivia.speedray.gogo.deploy
  * Created by don on 2/2/2017.
  */
 class DeploySshExtension {
-    String host
+    String host = 'localhost'
     Integer port = 22
     String user
     String password
+    File identityFile
 }
